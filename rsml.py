@@ -53,7 +53,7 @@ class RSML:
 
 if __name__ == "__main__":
     rsml = RSML()
-    rsml.load_ruleset("../concept/example.rsml.yaml")
+    rsml.load_ruleset("example.rsml.yaml")
 
     print(json.dumps(rsml.rules, indent=2))
     print(json.dumps(rsml.fields, indent=2))

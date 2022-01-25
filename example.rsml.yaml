@@ -1,0 +1,50 @@
+# RSML files consist of two YAML documents:
+#   1. fields and rules to apply to those fields
+#   2. the rules
+
+userEmail: Email 
+usernameInput: Username
+license: License
+
+---
+
+Username:
+  allow: # strict allow list -> disallow everything else
+    - letters
+    - numbers
+    - '_'
+  disallow:
+    - "xX"
+  length: 3-20
+
+Username1337 (Username): # Username1337 inherits from Username. (syntactic sugar)
+  contains:
+    - "1337"
+    - "xX"
+    - "Xx"
+
+ExtraUsername: # ExtraUsername also inherits from Username. (without syntactic sugar)
+  inherits: Username
+
+Email:
+  depends: usernameInput
+  length: 8 - ...
+  contains:
+    - '@'
+  allow: # automatically includes sequences from `contains`
+    - letters
+    - '.'
+
+#! Do note RSML is case sensitive. This is not the same as 'Email'
+Bar (Email):
+  #...
+
+License:
+  #You can also use regex if you want
+  regex: /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}$/
+
+Foo:
+  enabled: $fooEnabled
+  length: 16 # You don't need to supply a range, fixed lengths are also okay
+  startsWith: foo
+  endsWith: bar
