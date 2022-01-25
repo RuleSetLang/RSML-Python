@@ -27,15 +27,15 @@ class RSML:
             #TODO: -> fields
 
         for raw_rule_name, raw_rule_content in zip(raw_rules.keys(), raw_rules.values()):
-            rule_name: str = raw_rule_name
+            rule_name: str = raw_rule_name.strip()
             rule_content: dict = raw_rule_content
 
             if rule_content is None:
                 rule_content = {}
 
             if re.match("[a-zA-Z0-9]*\s*\([a-zA-Z0-9]*\)", rule_name):
-                parent_name = re.findall("\([a-zA-Z0-9]*\)", rule_name)[0][1:-1]
-                rule_name = re.sub("\([a-zA-Z0-9]*\)", "", rule_name)
+                parent_name = re.findall("\([a-zA-Z0-9]*\)", rule_name)[0][1:-1].strip()
+                rule_name = re.sub("\([a-zA-Z0-9]*\)", "", rule_name).strip()
 
                 rule_content['inherits'] = parent_name
 
@@ -55,5 +55,5 @@ if __name__ == "__main__":
     rsml = RSML()
     rsml.load_ruleset("example.rsml.yaml")
 
-    print(json.dumps(rsml.rules, indent=2))
-    print(json.dumps(rsml.fields, indent=2))
+    print(yaml.dump(rsml.rules))
+    print(yaml.dump(rsml.fields))

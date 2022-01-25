@@ -2,9 +2,15 @@
 #   1. fields and rules to apply to those fields
 #   2. the rules
 
-userEmail: Email 
 usernameInput: Username
 license: License
+
+# You can also group fields. It is currently not supported to add a field to multiple groups though.
+emails:
+  - userEmail
+  - friendsEmail
+
+emails: Email
 
 ---
 
