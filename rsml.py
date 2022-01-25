@@ -48,11 +48,3 @@ class RSML:
             
 
         self.fields = raw_fields
-        
-
-if __name__ == "__main__":
-    rsml = RSML()
-    rsml.load_ruleset("example.rsml.yaml")
-
-    print(yaml.dump(rsml.rules))
-    print(yaml.dump(rsml.fields))
