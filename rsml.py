@@ -2,7 +2,6 @@
 
 #! This is a prototype written for development purposes only.
 
-import json
 import yaml
 import re
 
