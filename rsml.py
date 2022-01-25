@@ -33,9 +33,9 @@ class RSML:
             if rule_content is None:
                 rule_content = {}
 
-            if re.match("[a-zA-Z0-9]*\s*\([a-zA-Z0-9]*\)", raw_rule_name):
-                rule_name = raw_rule_name.split('(')[0].strip()
-                parent_name = raw_rule_name.split('(')[1][:-1].strip()
+            if re.match("[a-zA-Z0-9]*\s*\([a-zA-Z0-9]*\)", rule_name):
+                parent_name = re.findall("\([a-zA-Z0-9]*\)", rule_name)[0][1:-1]
+                rule_name = re.sub("\([a-zA-Z0-9]*\)", "", rule_name)
 
                 rule_content['inherits'] = parent_name
 
