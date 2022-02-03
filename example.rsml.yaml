@@ -18,23 +18,25 @@ Username:
   allow: # strict allow list -> disallow everything else
     - letters
     - numbers
-    - '_'
+    - _
   disallow:
-    - "xX"
-  length: 3-20
+    - xX
+  length: 3-20 # Here's syntactic sugar for ranges
 
 Username1337 (Username): # Username1337 inherits from Username. (syntactic sugar)
   contains:
     - "1337"
-    - "xX"
-    - "Xx"
+    - xX
+    - Xx
 
 ExtraUsername: # ExtraUsername also inherits from Username. (without syntactic sugar)
   inherits: Username
 
 Email:
   depends: usernameInput
-  length: 8 - ...
+  length:
+      min: 8
+      max: 10 # you can also supply just min or just max or you can just supply a fixed number.
   contains:
     - '@'
   allow: # automatically includes sequences from `contains`

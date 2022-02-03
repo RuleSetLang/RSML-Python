@@ -2,10 +2,11 @@
 """Ruleset Modeling Language Python Prototype"""
 
 # !This is a prototype for development purposes only
+from numbers import Number
+from typing import SupportsRound
 import re
 import yaml
-
-
+import math
 class RSML:
     """Class implementing all RSML features"""
 
@@ -21,7 +22,8 @@ class RSML:
             raw_fields: dict = raw_rsml[0]
             raw_rules: dict = raw_rsml[1]
 
-        # TODO: handle ranges
+        # TODO: stringify everything in "contains"
+        # TODO: handle ranges in length
         # TODO: handle cyclic depends
         # TODO: handle self inherit
         # TODO: handle missing constant
@@ -50,8 +52,38 @@ class RSML:
                 else:
                     rule_content["allow"] = rule_content["contains"]
 
-                self.rules[rule_name] = rule_content
+            if "length" in rule_content.keys():
+                length_info = rule_content["length"]
+                print(length_info)
 
+                if isinstance(length_info, dict):
+                    # add missing boundaries
+                    if "min" not in length_info.keys():
+                        length_info["min"] = -math.inf
+                    if "max" not in length_info.keys():
+                        length_info["max"] = math.inf
+                elif isinstance(length_info, Number):
+                    # parse fixed number
+                    length_info = {"min": math.floor(length_info), "max": math.floor(length_info)}
+                elif isinstance(length_info, str):
+                    # parse syntactic sugar
+                    # TODO: Will break if supplied with negative numbers
+                    length_info_split = length_info.split("-", 2)
+
+                    if len(length_info_split) == 1:
+                        #TODO
+                        """raise exception"""
+
+                    min_len = int(length_info_split[0])
+                    max_len = int(length_info_split[1])
+                    length_info = {"min": min_len, "max": max_len}
+                else:
+                    #TODO
+                    """raise exception"""
+
+                rule_content["length"] = length_info
+
+            self.rules[rule_name] = rule_content
             self.fields = raw_fields
 
     def verify(self, data: dict) -> dict:
