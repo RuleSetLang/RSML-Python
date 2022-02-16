@@ -1,12 +1,13 @@
-#!/usr/bin/env python3
 """Ruleset Modeling Language Python Prototype"""
 
 # !This is a prototype for development purposes only
 from numbers import Number
-from typing import SupportsRound
 import re
-import yaml
 import math
+import yaml
+
+RSML_VERSION = "1.0.0"
+
 class RSML:
     """Class implementing all RSML features"""
 
@@ -14,17 +15,28 @@ class RSML:
         self.rules: dict = {}
         self.fields: dict = {}
 
-    def load_ruleset(self, path: str):
+    def load(self, path: str):
         """load ruleset file"""
 
         with open(path) as ruĺeset_file:
             raw_rsml = list(yaml.safe_load_all(ruĺeset_file))
-            raw_fields: dict = raw_rsml[0]
-            raw_rules: dict = raw_rsml[1]
+            
+            meta_info: dict = raw_rsml[0]
+            
+            imports: list = []
+            if "imports" in meta_info:
+                imports = meta_info["import"]
+            
+            rsml_version = RSML_VERSION
+            if "version" in meta_info:
+                rsml_version = meta_info["version"]
+
+            raw_fields: dict = raw_rsml[1]
+            raw_rules: dict = raw_rsml[2]
 
         # TODO: stringify everything in "contains"
-        # TODO: handle ranges in length
-        # TODO: handle cyclic depends
+        # TODO: handle cyclic inheritance
+        # TODO: handle cyclic imports
         # TODO: handle self inherit
         # TODO: handle missing constant
         # TODO: handle missing fields
@@ -71,14 +83,14 @@ class RSML:
                     length_info_split = length_info.split("-", 2)
 
                     if len(length_info_split) == 1:
-                        #TODO
+                        # TODO
                         """raise exception"""
 
                     min_len = int(length_info_split[0])
                     max_len = int(length_info_split[1])
                     length_info = {"min": min_len, "max": max_len}
                 else:
-                    #TODO
+                    # TODO
                     """raise exception"""
 
                 rule_content["length"] = length_info

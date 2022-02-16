@@ -10,7 +10,7 @@ data: dict = {
 }
 
 rsml = RSML()
-rsml.load_ruleset("example.rsml.yaml")
+rsml.load("example.rsml.yaml")
 
 print(json.dumps(rsml.rules, indent=2))
 print(json.dumps(rsml.fields, indent=2))

@@ -1,22 +1,26 @@
-# RSML files consist of two YAML documents:
-#   1. fields and rules to apply to those fields
-#   2. the rules
+# RSML files consist of three YAML documents:
+#   1. Used RSML version and optional import
+#   2. Fields and rules to apply to those fields
+#   3. The rules
 
-usernameInput: Username
+import:
+    - email.rsml.yaml
+    - users.rsml.yaml
+
+version: 1.0.1 # RSML version
+
+---
+
+friendsEmail: Email
 license: License
-
-# You can also group fields. It is currently not supported to add a field to multiple groups though.
-emails:
-  - userEmail
-  - friendsEmail
-
-emails: Email
+userEmail: Email
+usernameInput: Username
 
 ---
 
 Username:
   allow: # strict allow list -> disallow everything else
-    - letters
+    - \~letters
     - numbers
     - _
   disallow:
@@ -43,16 +47,11 @@ Email:
     - letters
     - '.'
 
-#! Do note RSML is case sensitive. This is not the same as 'Email'
-Bar (Email):
-  #...
-
 License:
   #You can also use regex if you want
   regex: /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}$/
 
 Foo:
-  enabled: $fooEnabled
   length: 16 # You don't need to supply a range, fixed lengths are also okay
   startsWith: foo
   endsWith: bar
