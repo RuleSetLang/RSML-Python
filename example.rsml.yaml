@@ -34,7 +34,7 @@ Username1337 (Username): # Username1337 inherits from Username. (syntactic sugar
     - Xx
 
 ExtraUsername: # ExtraUsername also inherits from Username. (without syntactic sugar)
-  inherits: Username
+  extends: Username
 
 Email:
   depends: usernameInput

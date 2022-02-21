@@ -10,9 +10,9 @@ data: dict = {
 }
 
 rsml = RSML()
-rsml.load("example.rsml.yaml")
+rsml.loadFromFile("example.rsml.yaml")
 
-print(json.dumps(rsml.rules, indent=2))
+print(json.dumps(rsml.rulesets, indent=2))
 print(json.dumps(rsml.fields, indent=2))
 
 print(json.dumps(rsml.verify(data)))

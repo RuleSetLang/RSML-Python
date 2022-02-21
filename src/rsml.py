@@ -12,10 +12,10 @@ class RSML:
     """Class implementing all RSML features"""
 
     def __init__(self):
-        self.rules: dict = {}
+        self.rulesets: dict = {}
         self.fields: dict = {}
 
-    def load(self, path: str):
+    def loadFromFile(self, path: str):
         """load ruleset file"""
 
         with open(path) as ruĺeset_file:
@@ -34,38 +34,49 @@ class RSML:
             raw_fields: dict = raw_rsml[1]
             raw_rules: dict = raw_rsml[2]
 
+
         # TODO: stringify everything in "contains"
-        # TODO: handle cyclic inheritance
         # TODO: handle cyclic imports
-        # TODO: handle self inherit
         # TODO: handle missing constant
         # TODO: handle missing fields
         # TODO: handle missing rules
-        # TODO:  -> inheritance
-        # TODO:  -> fields
+        # TODO: handle missing inheritance
+        # TODO: handle missing fields
 
         for raw_rule_name, raw_rule_content in zip(raw_rules.keys(), raw_rules.values()):
 
-            rule_name: str = raw_rule_name.strip()
-            rule_content: dict = raw_rule_content
+            ruleset_name: str = raw_rule_name.strip()
+            ruleset_content: dict = raw_rule_content
 
-            if rule_content is None:
-                rule_content = {}
+            if ruleset_content is None:
+                ruleset_content = {}
 
-            if re.match(r"[a-zA-Z0-9]*\s*\([a-zA-Z0-9]*\)", rule_name):
-                parent_name = re.findall(r"\([a-zA-Z0-9]*\)", rule_name)[0][1:-1].strip()
-                rule_name = re.sub(r"\([a-zA-Z0-9]*\)", "", rule_name).strip()
+            # resolve inheritance syntactic sugar
+            if re.match(r"[a-zA-Z0-9]*\s*\([a-zA-Z0-9]*\)", ruleset_name):
+                parent_name = re.findall(r"\([a-zA-Z0-9]*\)", ruleset_name)[0][1:-1].strip()
+                ruleset_name = re.sub(r"\([a-zA-Z0-9]*\)", "", ruleset_name).strip()
 
-                rule_content["inherits"] = parent_name
+                ruleset_content["extends"] = parent_name
 
-            if "contains" in rule_content.keys():
-                if "allow" in rule_content.keys():
-                    rule_content["allow"] += rule_content["contains"]
+            # handle inheritance
+            if "extends" in ruleset_content:
+                # TODO implement inheritance
+                # TODO handle cyclic / impossible inheritance
+                pass
+
+
+
+
+            # TODO move to ContainsRule.verify
+            if "contains" in ruleset_content.keys():
+                if "allow" in ruleset_content.keys():
+                    ruleset_content["allow"] += ruleset_content["contains"]
                 else:
-                    rule_content["allow"] = rule_content["contains"]
+                    ruleset_content["allow"] = ruleset_content["contains"]
 
-            if "length" in rule_content.keys():
-                length_info = rule_content["length"]
+            # TODO move to LengthRule.verify
+            if "length" in ruleset_content.keys():
+                length_info = ruleset_content["length"]
                 print(length_info)
 
                 if isinstance(length_info, dict):
@@ -93,10 +104,12 @@ class RSML:
                     # TODO
                     """raise exception"""
 
-                rule_content["length"] = length_info
+                ruleset_content["length"] = length_info
 
-            self.rules[rule_name] = rule_content
+            self.rulesets[ruleset_name] = ruleset_content
             self.fields = raw_fields
 
     def verify(self, data: dict) -> dict:
         """verify data based on previously loaded ruleset"""
+
+
