@@ -1,16 +1,26 @@
+import re
+from exceptions import RSMLTypeError
 from rules import *
 from numbers import Number
 import math
 
+
 class ListRule(Rule):
-    pass
+    def __init__(self, rule_content):
+        self.content = self.proces_content(rule_content)
+    
+    def process_content(self, content):
+        if not isinstance(content, List):
+            raise RSMLTypeError(type(content), List)
+        return content
+
 
 class RangeRule(Rule):
     def __init__(self, content):
-        content = self.process_syntactic_sugar(content)
+        self.content = self.process_content(content)
         
     
-    def process_syntactic_sugar(self, content) -> dict:
+    def process_content(self, content) -> dict:
         if isinstance(content, dict):
             # add missing boundaries
             if "min" not in content.keys():
@@ -36,17 +46,31 @@ class RangeRule(Rule):
             content = {"min": min_len, "max": max_len}
 
         else:
-            # TODO
-            """raise exception"""
+            raise RSMLTypeError(type(content), "RangeType")
             
         return content    
         
 
 
 class StringRule(Rule):
-    #! Do note rule content from YAML might be a list, dict, etc.
-    pass
+    def __init__(self, rule_content):
+        self.content = self.proces_content(rule_content)
+    
+    def process_content(self, content):
+        if not isinstance(content, str):
+            raise RSMLTypeError(type(content), str)
+        return content
 
 
 class RegExRule(Rule):
-    pass
+    def __init__(self, rule_content):
+        self.content = self.proces_content(rule_content)
+    
+    def process_content(self, content):
+        if not isinstance(content, str):
+            raise RSMLTypeError(type(content), "RegExString")
+        
+        # Throws exception when RegEx is not valid
+        re.compile(content)
+        
+        return content
