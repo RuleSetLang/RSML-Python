@@ -2,6 +2,8 @@ import abc
 import sys
 from typing import List
 
+from exceptions import RSMLRuleNotFoundError
+
 class Rule():
     @abc.abstractmethod
     def __init__(self, rule_content):
@@ -32,8 +34,7 @@ class Ruleset:
             try:
                 rule_class = getattr(sys.modules[__name__], r.capitalize()  + "RsmlRule")
             except Exception:
-                #TODO throw exception
-                pass
+                RSMLRuleNotFoundError(r)
             
             rules.append(rule_class(ruleset_content_raw[r]))
         
