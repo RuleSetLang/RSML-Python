@@ -54,12 +54,23 @@ class RangeRule(Rule):
 
 class StringRule(Rule):
     def __init__(self, rule_content):
-        self.content = self.proces_content(rule_content)
+        self.content = self.process_content(rule_content)
     
     def process_content(self, content):
         if not isinstance(content, str):
             raise RSMLTypeError(type(content), str)
         return content
+
+
+class DictRule(Rule):
+    def __init__(self, rule_content):
+        self.content = self.process_content(rule_content)
+    
+    def process_content(self, content):
+        if not isinstance(content, dict):
+            raise RSMLTypeError(type(content), dict)
+        return content
+
 
 
 class RegExRule(Rule):

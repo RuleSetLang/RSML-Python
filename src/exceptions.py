@@ -1,5 +1,3 @@
-from exceptions import Exception
-
 #! TODO Mention line in what the error occurred
 
 class RSMLTypeError(Exception):
@@ -25,15 +23,32 @@ class RSMLRuleNotFoundError(Exception):
     """Exception raised when rule was not found
 
     Attributes:
-        rule_name -- name of the non-existing rule
+        rule -- name of the non-existing rule
         message -- explanation of the error
     """
 
-    def __init__(self, rule_name, message="Rule does not exist"):
-        self.rule_name = rule_name
+    def __init__(self, rule, message="Rule does not exist"):
+        self.rule = rule
         self.message = message
         super().__init__(self.message)
 
     def __str__(self):
-        return f'{self.rule_name} -> {self.message}'
+        return f'{self.rule} -> {self.message}'
 
+class RSMLRuleNotComplied(Exception):
+    """Exception raised by RSMLRules that are not complied
+
+    Attributes:
+        rule -- type of the not complied rule
+        message -- explanation of the error
+    """
+
+    def __init__(self, rule, message : str):
+        self.rule = rule
+        
+        #! TODO localization support for errormessages using gettext
+        self.message = message if message else rule
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f'{self.rule} -> Rule not complied: \'{self.message}\''
