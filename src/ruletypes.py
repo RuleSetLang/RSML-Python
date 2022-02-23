@@ -49,7 +49,6 @@ class RangeRule(Rule):
             raise RSMLTypeError(type(content), "RangeType")
             
         return content    
-        
 
 
 class StringRule(Rule):
@@ -70,7 +69,6 @@ class DictRule(Rule):
         if not isinstance(content, dict):
             raise RSMLTypeError(type(content), dict)
         return content
-
 
 
 class RegExRule(Rule):

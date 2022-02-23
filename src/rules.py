@@ -20,19 +20,13 @@ class Rule():
 
 
 class Ruleset:
-    def __init__(self, name: str, ruleset_content_raw: dict) -> None:
+    def __init__(self, name: str, ruleset_content_raw: dict = {}, extends = None) -> None:
         self.name = name
-        
-        self.desc = self.get_desc(ruleset_content_raw)
-        del ruleset_content_raw["desc"]
-        
-        self.rules = self.get_rules(ruleset_content_raw)
+        self.extends = extends
 
-    def get_desc(ruleset_content_raw) -> str:
-        for r in ruleset_content_raw.keys():
-            if r == "desc":
-                return ruleset_content_raw[r]
-        return ""
+        self.desc = ruleset_content_raw.pop("desc")
+
+        self.rules = self.get_rules(ruleset_content_raw)
 
     def __init__(self, name: str, ruleset_content_raw: dict, extends: 'Ruleset') -> None:
         self.__init__(name, ruleset_content_raw)

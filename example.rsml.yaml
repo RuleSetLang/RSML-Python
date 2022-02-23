@@ -3,10 +3,6 @@
 #   2. Fields and rules to apply to those fields
 #   3. The rules
 
-import:
-    - email.rsml.yaml
-    - users.rsml.yaml
-
 version: 1.0.1 # RSML version
 
 ---
