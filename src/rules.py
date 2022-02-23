@@ -41,6 +41,12 @@ class Ruleset:
         
         return rules
     
+    def get_rule_descs(self, ) -> List[str]:
+        rule_descs = [str]
+        for r in self.rules:
+            rule_descs.append(r.desc)
+            
+    
     def check(self, input):
         for r in self.rules:
             r.check(input)
