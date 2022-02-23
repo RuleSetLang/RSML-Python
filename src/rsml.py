@@ -9,7 +9,7 @@ import yaml
 RSML_VERSION = "1.0.0"
 
 class RSML:
-    """Class implementing all RSML features"""
+    """Provides the RSML API"""
 
     def __init__(self):
         self.rulesets: dict = {}

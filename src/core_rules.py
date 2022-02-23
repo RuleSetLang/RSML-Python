@@ -1,5 +1,6 @@
 from exceptions import RSMLRuleNotComplied
 import ruletypes
+from localization import tr
 
 
 class LengthRSMLRule(ruletypes.DictRule):
@@ -7,7 +8,7 @@ class LengthRSMLRule(ruletypes.DictRule):
     def desc(self):
         min = self.content["min"]
         max = self.content["max"]
-        return "Length has to be between {min} and {max} characters.".format(min = str(min), max = str(max))
+        return tr("Length has to be between {min} and {max} characters.").format(min = str(min), max = str(max))
     
     def check(self, input : str):
         min = self.content["min"]
