@@ -1,9 +1,17 @@
-import File
 
-def load_files():
-    pass
+
+translations = {}
+
+def load_lang(lang: str):
+    with open("localization/" + lang + ".txt", "r") as f:
+        for entry in f.read().split("\n\n"):
+            entry = entry.split("\n")
+            key = entry[0]
+            val = entry[1]
+            translations[key] = val
+
 
 def tr(key: str) -> str:
-    return str
+    return translations[key]
 
-load_files()
+load_lang("en")

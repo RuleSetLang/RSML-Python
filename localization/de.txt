@@ -1,0 +1,2 @@
+Length has to be between {min} and {max} characters.
+Länge muss zwischen {min} und {max} liegen.
