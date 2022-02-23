@@ -10,6 +10,10 @@ class Rule():
     def __init__(self, rule_content):
         raise NotImplementedError
     
+    @property
+    def desc():
+        return NotImplementedError
+    
     @abc.abstractmethod
     def check(self, input):
         raise NotImplementedError
