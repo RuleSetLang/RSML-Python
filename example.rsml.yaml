@@ -14,6 +14,12 @@ usernameInput: Username
 
 ---
 
+Username1337 (Username): # Username1337 inherits from Username. (syntactic sugar)
+  contains:
+    - "1337"
+    - xX
+    - Xx
+
 Username:
   allow: # strict allow list -> disallow everything else
     - \~letters
@@ -22,12 +28,6 @@ Username:
   disallow:
     - xX
   length: 3-20 # Here's syntactic sugar for ranges
-
-Username1337 (Username): # Username1337 inherits from Username. (syntactic sugar)
-  contains:
-    - "1337"
-    - xX
-    - Xx
 
 ExtraUsername: # ExtraUsername also inherits from Username. (without syntactic sugar)
   extends: Username

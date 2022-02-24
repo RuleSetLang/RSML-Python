@@ -1,6 +1,5 @@
 import abc
 import sys
-import core_rules
 from typing import List
 
 from exceptions import RSMLRuleNotFoundError
@@ -20,17 +19,14 @@ class Rule():
 
 
 class Ruleset:
-    def __init__(self, name: str, ruleset_content_raw: dict = {}, extends = None) -> None:
+    def __init__(self, name: str, ruleset_content_raw: dict, extends: 'Ruleset' = None) -> None:
         self.name = name
         self.extends = extends
 
-        self.desc = ruleset_content_raw.pop("desc")
+        if "desc" in ruleset_content_raw.keys():
+            self.desc = ruleset_content_raw.pop("desc")
 
         self.rules = self.get_rules(ruleset_content_raw)
-
-    def __init__(self, name: str, ruleset_content_raw: dict, extends: 'Ruleset') -> None:
-        self.__init__(name, ruleset_content_raw)
-        self.extends = extends
     
     def get_rules(self, ruleset_content_raw: dict) -> List[Rule]:
         rules = []

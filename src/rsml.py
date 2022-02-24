@@ -41,34 +41,46 @@ class RSML:
         # TODO: handle missing constant
         # TODO: handle missing fields
         # TODO: handle missing rules
-        # TODO: handle missing inheritance
+        # TODO: handle inheritance from non-existent ruleset
         # TODO: handle missing fields
+
+        inheritance_postprocess_queue = {}
 
         for ruleset_name_raw, ruleset_content_raw in zip(raw_rules.keys(), raw_rules.values()):
 
             # TODO handle inheritance here and pass extended ruleset
             # TODO handle cyclic / impossible inheritance
             
+            extends_raw: str = ""
+            extends = None
+
             if re.match(r"[a-zA-Z0-9]*\s*\([a-zA-Z0-9]*\)", ruleset_name_raw):
                 extends_raw = re.findall(r"\([a-zA-Z0-9]*\)", ruleset_name_raw)[0][1:-1].strip()
                 ruleset_name_raw = re.sub(r"\([a-zA-Z0-9]*\)", "", ruleset_name_raw).strip()
 
             # handle inheritance
             if "extends" in ruleset_content_raw:
-                # TODO implement inheritance
-                
-                pass
+                extends_raw = ruleset_content_raw.pop("extends")
 
-            extends_raw = None
-
-            # ! Could currently still contain inheritance syntactic sugar
+            #! ruleset_name_raw has to be the clean name by this point            
             name = ruleset_name_raw
 
-            self.rulesets[name] = Ruleset(name, ruleset_content_raw, extends)
+            if extends_raw:
+                if extends_raw in self.rulesets.keys(): # parent is already loaded
+                    extends = self.rulesets[extends_raw]
+                else: # parent is not loaded yet -> add to postprocess list
+                    inheritance_postprocess_queue[extends_raw] = (name, ruleset_content_raw)
+                    continue
+
+            self.rulesets[ruleset_name_raw] = Ruleset(ruleset_name_raw, ruleset_content_raw, extends=extends)
+
+            # handle inheritance postprocess (add child with parent when parent is loaded)
+            if name in inheritance_postprocess_queue.keys():
+                child_name, child_content = inheritance_postprocess_queue.pop(name).unpack()
+                self.rulesets[child_name] = Ruleset(child_name, child_content, self.rulesets[name])
+
             self.fields = raw_fields
 
-    def verify(self, data: dict) -> dict:
+    def check(self, data: dict) -> dict:
         # TODO
         """verify data based on previously loaded ruleset"""
-
-
