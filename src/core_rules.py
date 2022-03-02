@@ -103,10 +103,22 @@ class DisallowRsmlRule(ListRule):
 
 
 class StartsWithRsmlRule(StringRule):
-    #TODO implement
-    pass
+    @property
+    def desc(self):
+        content = self.content
+        return tr("Text must start with the following: '{start}'").format(start = str(content))
+    
+    def check(self, input: str):
+        #TODO implement
+        pass
 
 
 class EndsWithRsmlRule(StringRule):
-    #TODO implement
-    pass
+    @property
+    def desc(self):
+        content = self.content
+        return tr("Text must end with the following: '{end}'").format(end = str(content))
+    
+    def check(self, input: str):
+        #TODO implement
+        pass
