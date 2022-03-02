@@ -52,3 +52,20 @@ class RSMLRuleNotComplied(Exception):
 
     def __str__(self):
         return f'{self.rule} -> Rule not complied: \'{self.message}\''
+
+class RSMLCircularInheritance(Exception):
+    """Exception raised when rulesets inherits are circular
+
+    Attributes:
+        ruleset -- name of the ruleset
+        message -- explanation of the error
+    """
+
+    def __init__(self, ruleset, message : str):
+        self.ruleset = ruleset
+        
+        self.message = message if message else ruleset
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f'{self.rule} -> Curcular inheritance: \'{self.message}\''

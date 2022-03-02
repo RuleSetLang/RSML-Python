@@ -33,14 +33,13 @@ ExtraUsername: # ExtraUsername also inherits from Username. (without syntactic s
   extends: Username
 
 Email:
-  depends: usernameInput
   length:
       min: 8
       max: 10 # you can also supply just min or just max or you can just supply a fixed number.
   contains:
     - '@'
   allow: # automatically includes sequences from `contains`
-    - letters
+    - ~letters
     - '.'
 
 License:
