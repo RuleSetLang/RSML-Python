@@ -93,9 +93,8 @@ class DisallowRsmlRule(ruletypes.ListRule):
         return tr("Text may not contain the following: '{list}'").format(list = str(content))
     
     def check(self, input: str):
-        content = self.content
-        
         #TODO implement
+        pass
 
 
 class StartsWithRsmlRule(ruletypes.StringRule):

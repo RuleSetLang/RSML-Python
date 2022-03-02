@@ -13,7 +13,7 @@ class Rule():
         raise NotImplementedError
     
     @property
-    def desc():
+    def desc(self):
         return NotImplementedError
     
     @abc.abstractmethod

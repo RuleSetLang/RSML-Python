@@ -20,25 +20,26 @@ class RSML:
     def load_ruleset(self, ruleset_name_raw: str, raw_rulesets: dict):
         ruleset_content_raw = raw_rulesets[ruleset_name_raw]
         
-        extends_raw: str = ""
+        extends_name: str = ""
         extends = None
 
         if re.match(r"[a-zA-Z0-9]*\s*\([a-zA-Z0-9]*\)", ruleset_name_raw):
-            extends_raw = re.findall(r"\([a-zA-Z0-9]*\)", ruleset_name_raw)[0][1:-1].strip()
+            extends_name = re.findall(r"\([a-zA-Z0-9]*\)", ruleset_name_raw)[0][1:-1].strip()
             ruleset_name_raw = re.sub(r"\([a-zA-Z0-9]*\)", "", ruleset_name_raw).strip()
 
         # handle inheritance
         if "extends" in ruleset_content_raw:
-            extends_raw = ruleset_content_raw.pop("extends")
+            extends_name = ruleset_content_raw.pop("extends")
 
         #! ruleset_name_raw has to be the clean name by this point            
         name = ruleset_name_raw
 
-        if extends_raw:
-            if extends_raw in self.rulesets.keys(): # parent is already loaded
-                extends = self.rulesets[extends_raw]
+        if extends_name:
+            if extends_name in self.rulesets.keys(): # parent is already loaded
+                extends = self.rulesets[extends_name]
             else: # parent is not loaded yet -> add to postprocess list
-                self.load_ruleset(extends_raw, raw_rulesets)
+                self.load_ruleset(extends_name, raw_rulesets)
+                extends = self.rulesets[extends_name]
 
         self.rulesets[name] = Ruleset(name, ruleset_content_raw, extends=extends)
 
