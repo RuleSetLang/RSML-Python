@@ -14,3 +14,25 @@ class LengthRSMLRule(ruletypes.RangeRule):
         max = self.content["max"]
         if(len(input) < min or len(input) > max):
             raise RSMLRuleNotComplied(type(self), self.desc)
+
+class StartsWithRSMLRule(ruletypes.StringRule):
+    @property
+    def desc(self):
+        content = self.content
+        return tr("Text has to start with {str}").format(str = content)
+    
+    def check(self, input: str):
+        content = self.content
+        if not content.startswith(str):
+            raise RSMLRuleNotComplied(type(self), self.desc)
+
+class EndsWithRSMLRule(ruletypes.StringRule):
+    @property
+    def desc(self):
+        content = self.content
+        return tr("Text has to end with {str}").format(str = content)
+    
+    def check(self, input: str):
+        content = self.content
+        if not content.endswith(str):
+            raise RSMLRuleNotComplied(type(self), self.desc)
