@@ -35,11 +35,16 @@ class Ruleset:
             rule_descs.append(r.desc)
             
     
-    def check(self, input):
-        #TODO are we going to make use of the returned values here??
+    def check(self, input):        
+        errors: dict = {}
         
         if self.parent is not None:
-            self.parent.check(input)
+            errors += self.parent.check(input)
 
         for r in self.rules:
-            r.check(input)
+            try:
+                r.check(input)
+            except Exception as e:
+                errors[type(r).__name__] = e
+
+        return errors

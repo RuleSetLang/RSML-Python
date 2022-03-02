@@ -76,13 +76,13 @@ class RSML:
         self.fields = raw_fields
 
     def check(self, data: dict) -> dict:
-        exceptions = {}
+        all_fields_errors: dict = {}
 
         for field_name, field_input in zip(data.keys(), data.values()):
             ruleset = self.rulesets[self.fields[field_name]]
-            try:
-                ruleset.check(field_input)
-            except Exception as e:
-                exceptions[field_name] = e
+            
+            errors = ruleset.check(field_input)
+            if errors:
+                all_fields_errors[field_name] = errors
 
-        return exceptions
+        return all_fields_errors
