@@ -1,22 +1,10 @@
-import abc
 import sys
+
 from typing import List
 
+from ruletypes import Rule
 from exceptions import RSMLRuleNotFoundError
-
-class Rule():
-    @abc.abstractmethod
-    def __init__(self, rule_content):
-        raise NotImplementedError
-    
-    @property
-    def desc():
-        return NotImplementedError
-    
-    @abc.abstractmethod
-    def check(self, input):
-        raise NotImplementedError
-
+from core_rules import *
 
 class Ruleset:
     def __init__(self, name: str, ruleset_content_raw: dict, extends: 'Ruleset' = None) -> None:
@@ -33,7 +21,7 @@ class Ruleset:
         
         for r in ruleset_content_raw.keys():
             try:
-                rule_class = getattr(sys.modules[__name__], r.capitalize()  + "RsmlRule")
+                rule_class = getattr(sys.modules[__name__], r[0].upper()+r[1:] + "RsmlRule")
             except Exception:
                 raise RSMLRuleNotFoundError(r)
             

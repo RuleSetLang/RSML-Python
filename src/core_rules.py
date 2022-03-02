@@ -4,7 +4,7 @@ import ruletypes
 from localization import tr
 
 
-class LengthRSMLRule(ruletypes.RangeRule):
+class LengthRsmlRule(ruletypes.RangeRule):
     @property
     def desc(self):
         min = self.content["min"]
@@ -18,7 +18,7 @@ class LengthRSMLRule(ruletypes.RangeRule):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class StartsWithRSMLRule(ruletypes.StringRule):
+class StartsWithRsmlRule(ruletypes.StringRule):
     @property
     def desc(self):
         content = self.content
@@ -30,7 +30,7 @@ class StartsWithRSMLRule(ruletypes.StringRule):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class EndsWithRSMLRule(ruletypes.StringRule):
+class EndsWithRsmlRule(ruletypes.StringRule):
     @property
     def desc(self):
         content = self.content
@@ -42,7 +42,7 @@ class EndsWithRSMLRule(ruletypes.StringRule):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class RegexRSMLRule(ruletypes.RegExRule):
+class RegexRsmlRule(ruletypes.RegExRule):
     @property
     def desc(self):
         content = self.content
@@ -54,7 +54,7 @@ class RegexRSMLRule(ruletypes.RegExRule):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class ContainsRSMLRule(ruletypes.ListRule):
+class ContainsRsmlRule(ruletypes.ListRule):
     @property
     def desc(self):
         content = self.content
@@ -69,11 +69,11 @@ class ContainsRSMLRule(ruletypes.ListRule):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class AllowRSMLRule(ruletypes.ListRule):
+class AllowRsmlRule(ruletypes.ListRule):
     @property
     def desc(self):
         content = self.content
-        return tr("Text has to contain at least one of the following: '{list}'").format(list = str(content))
+        return tr("Text may only contain: '{list}'").format(list = str(content))
     
     def check(self, input: str):
         content = self.content
@@ -82,3 +82,27 @@ class AllowRSMLRule(ruletypes.ListRule):
         
         if not re.compile(regex).match(input):
             raise RSMLRuleNotComplied(type(self), self.desc)
+
+        #TODO implement
+
+
+class DisallowRsmlRule(ruletypes.ListRule):
+    @property
+    def desc(self):
+        content = self.content
+        return tr("Text may not contain the following: '{list}'").format(list = str(content))
+    
+    def check(self, input: str):
+        content = self.content
+        
+        #TODO implement
+
+
+class StartsWithRsmlRule(ruletypes.StringRule):
+    #TODO implement
+    pass
+
+
+class EndsWithRsmlRule(ruletypes.StringRule):
+    #TODO implement
+    pass

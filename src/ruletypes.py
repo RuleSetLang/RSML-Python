@@ -1,9 +1,24 @@
+import abc
 import re
-from exceptions import RSMLTypeError
-from rules import *
-from numbers import Number
 import math
 
+from typing import List
+
+from exceptions import RSMLTypeError
+from numbers import Number
+
+class Rule():
+    @abc.abstractmethod
+    def __init__(self, rule_content):
+        raise NotImplementedError
+    
+    @property
+    def desc():
+        return NotImplementedError
+    
+    @abc.abstractmethod
+    def check(self, input):
+        raise NotImplementedError
 
 class ListRule(Rule):
     def __init__(self, rule_content):
@@ -73,7 +88,7 @@ class DictRule(Rule):
 
 class RegExRule(Rule):
     def __init__(self, rule_content):
-        self.content = self.proces_content(rule_content)
+        self.content = self.process_content(rule_content)
     
     def process_content(self, content):
         if not isinstance(content, str):

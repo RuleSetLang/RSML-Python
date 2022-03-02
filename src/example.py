@@ -10,6 +10,6 @@ data: dict = {
 }
 
 rsml = RSML()
-rsml.loadFromFile("example.rsml.yaml")
+rsml.load_from_file("example.rsml.yaml")
 
 print(json.dumps(rsml.check(data)))
