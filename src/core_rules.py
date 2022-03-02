@@ -41,6 +41,7 @@ class EndsWithRSMLRule(ruletypes.StringRule):
         if not content.endswith(str):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
+
 class RegexRSMLRule(ruletypes.RegExRule):
     @property
     def desc(self):
@@ -51,3 +52,16 @@ class RegexRSMLRule(ruletypes.RegExRule):
         content = self.content
         if not re.compile(str).match(input):
             raise RSMLRuleNotComplied(type(self), self.desc)
+
+
+class ContainsRSMLRule(ruletypes.ListRule):
+    @property
+    def desc(self):
+        content = self.content
+        return tr("Text has to contain the following: '{list}'").format(list = str(content))
+    
+    def check(self, input: str):
+        content = self.content
+        for item in content:
+            if not item in input:
+                raise RSMLRuleNotComplied(type(self), self.desc)
