@@ -1,10 +1,12 @@
 import re
+
+import core_keywords
+from ruletypes import *
 from exceptions import RSMLRuleNotComplied
-import ruletypes
 from localization import tr
 
 
-class LengthRsmlRule(ruletypes.RangeRule):
+class LengthRsmlRule(RangeRule):
     @property
     def desc(self):
         min = self.content["min"]
@@ -18,7 +20,7 @@ class LengthRsmlRule(ruletypes.RangeRule):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class StartsWithRsmlRule(ruletypes.StringRule):
+class StartsWithRsmlRule(StringRule):
     @property
     def desc(self):
         content = self.content
@@ -30,7 +32,7 @@ class StartsWithRsmlRule(ruletypes.StringRule):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class EndsWithRsmlRule(ruletypes.StringRule):
+class EndsWithRsmlRule(StringRule):
     @property
     def desc(self):
         content = self.content
@@ -42,7 +44,7 @@ class EndsWithRsmlRule(ruletypes.StringRule):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class RegexRsmlRule(ruletypes.RegExRule):
+class RegexRsmlRule(RegExRule):
     @property
     def desc(self):
         content = self.content
@@ -54,22 +56,21 @@ class RegexRsmlRule(ruletypes.RegExRule):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class ContainsRsmlRule(ruletypes.ListRule):
+class ContainsRsmlRule(ListRule):
     @property
     def desc(self):
         content = self.content
         return tr("Text has to contain the following: '{list}'").format(list = str(content))
     
-    def check(self, input: str):
+    def check(self, input_to_check: str):
         content = self.content
         
-        regex = "/(^\A(^" + "|^".join(content) + ")*\Z)"
-        print(regex)
-        if not re.compile(regex).match(input):
-            raise RSMLRuleNotComplied(type(self), self.desc)
+        for c in content:
+            if c not in input_to_check:
+                raise RSMLRuleNotComplied(type(self), self.desc)
 
 
-class AllowRsmlRule(ruletypes.ListRule):
+class AllowRsmlRule(ListRule):
     @property
     def desc(self):
         content = self.content
@@ -78,15 +79,19 @@ class AllowRsmlRule(ruletypes.ListRule):
     def check(self, input: str):
         content = self.content
         
-        regex = "\A[" + "|".join(content) + "]*\Z"
+        for i, c in enumerate(content):
+            if c[0] == '~':
+                content[i] = core_keywords.KEYWORDS[c[1:]]
+
+        regex = r"\A[" + "|".join(content) + r"]*\Z"
         
-        if not re.compile(regex).match(input):
+        if not re.compile(regex, flags=re.UNICODE).match(input):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
         #TODO implement
 
 
-class DisallowRsmlRule(ruletypes.ListRule):
+class DisallowRsmlRule(ListRule):
     @property
     def desc(self):
         content = self.content
@@ -97,11 +102,11 @@ class DisallowRsmlRule(ruletypes.ListRule):
         pass
 
 
-class StartsWithRsmlRule(ruletypes.StringRule):
+class StartsWithRsmlRule(StringRule):
     #TODO implement
     pass
 
 
-class EndsWithRsmlRule(ruletypes.StringRule):
+class EndsWithRsmlRule(StringRule):
     #TODO implement
     pass

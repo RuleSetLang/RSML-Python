@@ -1,4 +1,4 @@
 KEYWORDS =  {
-    "numbers": "[0-9]*",
-    "letters": "\p{L}*"
+    "numbers": r"0-9",
+    "letters": r"\w"
 }

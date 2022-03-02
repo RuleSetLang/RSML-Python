@@ -43,7 +43,6 @@ class RSML:
 
         self.rulesets[name] = Ruleset(name, ruleset_content_raw, extends=extends)
 
-
     def load_from_file(self, path: str):
         """load ruleset file"""
 
@@ -77,5 +76,13 @@ class RSML:
         self.fields = raw_fields
 
     def check(self, data: dict) -> dict:
-        # TODO
-        """verify data based on previously loaded ruleset"""
+        exceptions = {}
+
+        for field_name, field_input in zip(data.keys(), data.values()):
+            ruleset = self.rulesets[self.fields[field_name]]
+            try:
+                ruleset.check(field_input)
+            except Exception as e:
+                exceptions[field_name] = e
+
+        return exceptions

@@ -25,22 +25,20 @@ Username:
     - xX
   length: 3-20 # Here's syntactic sugar for ranges
   allow: # strict allow list -> disallow everything else
-    - \~letters
-    - numbers
+    - ~letters
+    - ~numbers
     - _
 
 ExtraUsername: # ExtraUsername also inherits from Username. (without syntactic sugar)
   extends: Username
 
 Email:
-  length:
-      min: 8
-      max: 10 # you can also supply just min or just max or you can just supply a fixed number.
   contains:
     - '@'
   allow: # automatically includes sequences from `contains`
     - ~letters
     - '.'
+    - '@'
 
 License:
   #You can also use regex if you want

@@ -9,7 +9,7 @@ from core_rules import *
 class Ruleset:
     def __init__(self, name: str, ruleset_content_raw: dict, extends: 'Ruleset' = None) -> None:
         self.name = name
-        self.extends = extends
+        self.parent = extends
 
         if "desc" in ruleset_content_raw.keys():
             self.desc = ruleset_content_raw.pop("desc")
@@ -36,5 +36,10 @@ class Ruleset:
             
     
     def check(self, input):
+        #TODO are we going to make use of the returned values here??
+        
+        if self.parent is not None:
+            self.parent.check(input)
+
         for r in self.rules:
             r.check(input)
