@@ -26,7 +26,7 @@ class StartsWithRSMLRule(ruletypes.StringRule):
     
     def check(self, input: str):
         content = self.content
-        if not content.startswith(str):
+        if not content.startswith(input):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
@@ -38,7 +38,7 @@ class EndsWithRSMLRule(ruletypes.StringRule):
     
     def check(self, input: str):
         content = self.content
-        if not content.endswith(str):
+        if not content.endswith(input):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
@@ -50,7 +50,7 @@ class RegexRSMLRule(ruletypes.RegExRule):
     
     def check(self, input: str):
         content = self.content
-        if not re.compile(str).match(input):
+        if not re.compile(content).match(input):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
@@ -62,6 +62,23 @@ class ContainsRSMLRule(ruletypes.ListRule):
     
     def check(self, input: str):
         content = self.content
-        for item in content:
-            if not item in input:
-                raise RSMLRuleNotComplied(type(self), self.desc)
+        
+        regex = "/(^\A(^" + "|^".join(content) + ")*\Z)"
+        print(regex)
+        if not re.compile(regex).match(input):
+            raise RSMLRuleNotComplied(type(self), self.desc)
+
+
+class AllowRSMLRule(ruletypes.ListRule):
+    @property
+    def desc(self):
+        content = self.content
+        return tr("Text has to contain at least one of the following: '{list}'").format(list = str(content))
+    
+    def check(self, input: str):
+        content = self.content
+        
+        regex = "\A[" + "|".join(content) + "]*\Z"
+        
+        if not re.compile(regex).match(input):
+            raise RSMLRuleNotComplied(type(self), self.desc)

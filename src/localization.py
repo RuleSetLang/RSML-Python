@@ -12,6 +12,6 @@ def load_lang(lang: str):
 
 
 def tr(key: str) -> str:
-    return translations[key]
+    return translations[key] if key in translations.keys() else key
 
 load_lang("en")

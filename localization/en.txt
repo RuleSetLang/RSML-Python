@@ -1,2 +1,5 @@
 Length has to be between {min} and {max} characters.
 Has to be between {min} and {max} characters
+
+"Text has to contain the following: '{list}'"
+"Text has to contain the following: '{list}'"

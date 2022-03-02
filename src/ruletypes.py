@@ -7,7 +7,7 @@ import math
 
 class ListRule(Rule):
     def __init__(self, rule_content):
-        self.content = self.proces_content(rule_content)
+        self.content = self.process_content(rule_content)
     
     def process_content(self, content):
         if not isinstance(content, List):
