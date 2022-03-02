@@ -9,14 +9,14 @@ from localization import tr
 class LengthRsmlRule(RangeRule):
     @property
     def desc(self):
-        min = self.content["min"]
-        max = self.content["max"]
-        return tr("Length has to be between {min} and {max} characters.").format(min = str(min), max = str(max))
+        range_min = self.content["min"]
+        range_max = self.content["max"]
+        return tr("Length has to be between {min} and {max} characters.").format(min = str(range_min), max = str(range_max))
     
     def check(self, input: str):
-        min = self.content["min"]
-        max = self.content["max"]
-        if(len(input) < min or len(input) > max):
+        range_min = self.content["min"]
+        range_max = self.content["max"]
+        if(len(input) < range_min or len(input) > range_max):
             raise RSMLRuleNotComplied(type(self), self.desc)
 
 
