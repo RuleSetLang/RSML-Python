@@ -38,7 +38,7 @@ Email:
   allow: # automatically includes sequences from `contains`
     - ~letters
     - '.'
-    - '@'
+    - '@' #TODO this should not be necessary. This should be taken from contains while processing 
 
 License:
   #You can also use regex if you want
