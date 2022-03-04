@@ -5,20 +5,21 @@ This is a prototype implementation of RSML in Python3 for development purposes.
 Here's a usage idea:
 
 ```python
+#!/usr/bin/env python3
+# For detailed API info see the Concept Repository.
+
 from rsml import RSML
 
-data = {"field1": "value1", "field2": True, "field3": 1337}
+data: dict = {
+    "userEmail": "antricks.dev@posteo.de",
+    "usernameInput": "xX_Äntrickś",
+    "friendsEmail": "foo@bar.com",
+}
 
-if __name__ == "__main__":
-    rsml = RSML()
-    rsml.loadRuleset("file/path/to/ruleset")
-    
-    # Will probably become private / protected at some point
-    print(rsml.rules)
-    print(rsml.fields)
-    
-    # For further API stuff see the concept repo
-    
+rsml = RSML()
+rsml.load_from_file("example.rsml.yaml")
+
+print(rsml.check(data))
 ```
 
 -> [Concept Repo](https://github.com/RuleSetLang/RSML-Concept)
