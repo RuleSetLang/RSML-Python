@@ -1,6 +1,6 @@
-# RSML Python prototype
+# RSML Python implementation
 
-This is a prototype implementation of RSML in Python3 for development purposes.
+This is a Python implementation of RSML, mainly for development purposes. **It is not production ready yet.**
 
 Here's a usage example:
 
