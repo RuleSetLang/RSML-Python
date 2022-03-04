@@ -2,7 +2,7 @@
 
 This is a prototype implementation of RSML in Python3 for development purposes.
 
-Here's a usage idea:
+Here's a usage example:
 
 ```python
 #!/usr/bin/env python3
