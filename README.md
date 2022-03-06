@@ -12,7 +12,7 @@ from rsml import RSML
 
 data: dict = {
     "userEmail": "antricks.dev@posteo.de",
-    "usernameInput": "xX_Äntrickś",
+    "usernameInput": "Äntrickś",
     "friendsEmail": "foo@bar.com",
 }
 
