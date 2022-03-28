@@ -4,7 +4,7 @@ from rsml import RSML
 
 data: dict = {
     "userEmail": "antricks.dev@posteo.de",
-    "usernameInput": "xX_Äntrickś",
+    "usernameInput": "xX_Äntrickś", # should fail because xX is disallowed
     "friendsEmail": "foo@bar.com",
 }
 

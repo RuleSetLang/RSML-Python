@@ -23,6 +23,7 @@ Username1337 (Username): # Username1337 inherits from Username. (syntactic sugar
 Username:
   disallow:
     - xX
+    - Xx
   length: 3-20 # Here's syntactic sugar for ranges
   allow: # strict allow list -> disallow everything else
     - ~letters

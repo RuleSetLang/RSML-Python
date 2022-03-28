@@ -7,6 +7,8 @@ from typing import List
 from exceptions import RSMLTypeError
 from numbers import Number
 
+import core_keywords
+
 class Rule():
     @abc.abstractmethod
     def __init__(self, rule_content):
@@ -49,6 +51,7 @@ class RangeRule(Rule):
 
         elif isinstance(content, str):
             # parse syntactic sugar
+            # FIXME
             # TODO: Will break if supplied with negative numbers
             content_split = content.split("-", 2)
 
@@ -97,4 +100,18 @@ class RegExRule(Rule):
         # Throws exception when RegEx is not valid
         re.compile(content)
         
+        return content
+
+
+class RegExListRule(ListRule):
+    def __init__(self, rule_content):
+        self.content = self.process_content(rule_content)
+
+    def process_content(self, content):
+        content = super().process_content(content)
+        
+        for i, c in enumerate(content):
+            if c[0] == '~':
+                content[i] = core_keywords.KEYWORDS[c[1:]]
+
         return content
