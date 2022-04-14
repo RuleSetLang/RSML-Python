@@ -1,21 +1,15 @@
-# RSML files consist of three YAML documents:
-#   1. Used RSML version and optional import
-#   2. Fields and rules to apply to those fields
-#   3. The rules
-
 version: 1.0.1 # RSML version
 
 ---
 
 friendsEmail: Email
-license: License
 userEmail: Email
 usernameInput: Username
 
 ---
 
-Username1337 (Username): # Username1337 inherits from Username. (syntactic sugar)
-  contains:
+Username1337 (Username):
+  contains: # TODO this clashes with parent's disallow rule
     - "1337"
     - xX
     - Xx
@@ -30,22 +24,10 @@ Username:
     - ~numbers
     - _
 
-ExtraUsername: # ExtraUsername also inherits from Username. (without syntactic sugar)
-  extends: Username
-
 Email:
   contains:
     - '@'
-  allow: # automatically includes sequences from `contains`
+  allow:
     - ~letters
     - '.'
     - '@' #TODO this should not be necessary. This should be taken from contains while processing 
-
-License:
-  #You can also use regex if you want
-  regex: /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}$/
-
-Foo:
-  length: 16 # You don't need to supply a range, fixed lengths are also okay
-  startsWith: foo
-  endsWith: bar

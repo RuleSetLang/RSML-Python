@@ -7,8 +7,6 @@ from typing import List
 from exceptions import RSMLTypeError
 from numbers import Number
 
-import core_keywords
-
 class Rule():
     @abc.abstractmethod
     def __init__(self, rule_content):
@@ -21,6 +19,7 @@ class Rule():
     @abc.abstractmethod
     def check(self, input):
         raise NotImplementedError
+
 
 class ListRule(Rule):
     def __init__(self, rule_content):
@@ -35,7 +34,6 @@ class ListRule(Rule):
 class RangeRule(Rule):
     def __init__(self, content):
         self.content = self.process_content(content)
-        
     
     def process_content(self, content) -> dict:
         if isinstance(content, dict):
@@ -100,18 +98,4 @@ class RegExRule(Rule):
         # Throws exception when RegEx is not valid
         re.compile(content)
         
-        return content
-
-
-class RegExListRule(ListRule):
-    def __init__(self, rule_content):
-        self.content = self.process_content(rule_content)
-
-    def process_content(self, content):
-        content = super().process_content(content)
-        
-        for i, c in enumerate(content):
-            if c[0] == '~':
-                content[i] = core_keywords.KEYWORDS[c[1:]]
-
         return content
