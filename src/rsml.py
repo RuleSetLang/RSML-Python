@@ -1,6 +1,7 @@
 """Ruleset Modeling Language Python Prototype"""
 
 # !This is a prototype for development purposes only
+
 from numbers import Number
 import re
 import math
@@ -54,7 +55,7 @@ class RSML:
             self.imports: list = []
             if "imports" in meta_info:
                 self.imports = meta_info["imports"]
-            
+
             self.rsml_version = RSML_VERSION
             if "version" in meta_info:
                 self.rsml_version = meta_info["version"]
@@ -70,13 +71,13 @@ class RSML:
         # TODO: handle inheritance from non-existent ruleset
         # TODO: handle missing fields
 
+        self.apply_imports()
+
         for name in raw_rulesets.keys():
             self.load_ruleset(name, raw_rulesets)
 
         if raw_fields:
             self.fields.update(raw_fields)
-        
-        self.apply_imports()
 
     def apply_imports(self):
         if self.imports:
