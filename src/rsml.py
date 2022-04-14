@@ -46,18 +46,18 @@ class RSML:
     def load_from_file(self, path: str):
         """load ruleset file"""
 
-        with open(path) as ruĺeset_file:
-            raw_rsml = list(yaml.safe_load_all(ruĺeset_file))
+        with open(path) as ruleset_file:
+            raw_rsml = list(yaml.safe_load_all(ruleset_file))
             
             meta_info: dict = raw_rsml[0]
             
-            imports: list = []
+            self.imports: list = []
             if "imports" in meta_info:
-                imports = meta_info["import"]
+                self.imports = meta_info["imports"]
             
-            rsml_version = RSML_VERSION
+            self.rsml_version = RSML_VERSION
             if "version" in meta_info:
-                rsml_version = meta_info["version"]
+                self.rsml_version = meta_info["version"]
 
             raw_fields: dict = raw_rsml[1]
             raw_rulesets: dict = raw_rsml[2]
@@ -73,7 +73,18 @@ class RSML:
         for name in raw_rulesets.keys():
             self.load_ruleset(name, raw_rulesets)
 
-        self.fields = raw_fields
+        if raw_fields:
+            self.fields.update(raw_fields)
+        
+        self.apply_imports()
+
+    def apply_imports(self):
+        if self.imports:
+            if type(self.imports) is str:
+                self.load_from_file(self.imports)
+            else:
+                for path in self.imports:
+                    self.load_from_file(path)
 
     def check(self, data: dict) -> dict:
         all_fields_errors: dict = {}

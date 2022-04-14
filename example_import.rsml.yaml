@@ -1,0 +1,24 @@
+version: 1.0.1 # RSML version
+
+---
+# No inputs defined
+---
+
+Username:
+  disallow:
+    - xX
+    - Xx
+  length: 3-20 # Here's syntactic sugar for ranges
+  allow: # strict allow list -> disallow everything else
+    - ~letters
+    - ~numbers
+    - _
+
+Email:
+  length: 5-320
+  contains:
+    - '@'
+  allow: # automatically includes sequences from `contains`
+    - ~letters
+    - '.'
+    - '@' #TODO this should not be necessary. This should be taken from contains while processing 

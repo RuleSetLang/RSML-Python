@@ -1,4 +1,5 @@
 version: 1.0.1 # RSML version
+imports: "example_import.rsml.yaml" # May also be a list of imports
 
 ---
 
@@ -14,20 +15,14 @@ Username1337 (Username):
     - xX
     - Xx
 
-Username:
-  disallow:
-    - xX
-    - Xx
-  length: 3-20 # Here's syntactic sugar for ranges
-  allow: # strict allow list -> disallow everything else
-    - ~letters
-    - ~numbers
-    - _
+ExtraUsername: # ExtraUsername also inherits from Username. (without syntactic sugar)
+  extends: Username
 
-Email:
-  contains:
-    - '@'
-  allow:
-    - ~letters
-    - '.'
-    - '@' #TODO this should not be necessary. This should be taken from contains while processing 
+License:
+  #You can also use regex if you want
+  regex: /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}$/
+
+Foo:
+  length: 16 # You don't need to supply a range, fixed lengths are also okay
+  startsWith: foo
+  endsWith: bar
