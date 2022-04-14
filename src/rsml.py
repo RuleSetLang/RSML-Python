@@ -4,7 +4,6 @@
 
 from numbers import Number
 import re
-import math
 import yaml
 
 from ruleset import Ruleset
